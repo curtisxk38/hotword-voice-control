@@ -1,2 +1,4 @@
 credentials
 *.wav
+*~
+__pycache__/
