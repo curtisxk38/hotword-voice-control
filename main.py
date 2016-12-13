@@ -20,6 +20,15 @@ def api_call(audio_name, url, auth, params, headers):
                                       headers=headers,
                                       stream=False)
         return http_response
+
+def parse(response):
+    result = []
+    data = response.json()
+    for x in data["results"]:
+        best_alt = x["alternatives"][0]
+        print(best_alt)
+        result.append(best_alt["transcript"])
+    return result
     
 def main(file_name):
     cred = load_credentials("credentials")
@@ -30,7 +39,9 @@ def main(file_name):
     headers = {"content-type": "audio/wav"}
 
     r = api_call(file_name, url, auth, params, headers)
-    print(r.text)
+    result = parse(r)
+    for i in result:
+        print(i)
       
 if __name__ == "__main__":
     main(sys.argv[1])
